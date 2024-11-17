@@ -1,0 +1,94 @@
+import unittest
+from unittest.mock import patch
+
+# Importing all modules to be tested
+import src.main as main_module
+import src.agents.agent_base as agent_base_module
+import src.agents.conversation_agent as conversation_agent_module
+import src.agents.scenario_agent as scenario_agent_module
+import src.agents.session_history as session_history_module
+import src.agents.vocab_agent as vocab_agent_module
+import src.tabs.conversation_tab as conversation_tab_module
+import src.tabs.scenario_tab as scenario_tab_module
+import src.tabs.vocab_tab as vocab_tab_module
+import src.utils.merge_requirements as merge_requirements_module
+
+class TestMain(unittest.TestCase):
+    def test_main(self):
+        # Test the main function
+        with patch('builtins.print') as mocked_print:
+            main_module.main()
+            mocked_print.assert_called()  # Check if print was called in main
+
+class TestAgentBase(unittest.TestCase):
+    def setUp(self):
+        self.agent = agent_base_module.AgentBase()
+
+    def test_load_prompt(self):
+        # Test load_prompt function
+        result = self.agent.load_prompt()
+        self.assertIsNotNone(result)
+
+    def test_chat_with_history(self):
+        # Test chat_with_history function
+        result = self.agent.chat_with_history("Hello")
+        self.assertIsInstance(result, str)
+
+class TestConversationAgent(unittest.TestCase):
+    def setUp(self):
+        self.agent = conversation_agent_module.ConversationAgent()
+
+    def test_init(self):
+        # Test if initialization works
+        self.assertIsNotNone(self.agent)
+
+class TestScenarioAgent(unittest.TestCase):
+    def setUp(self):
+        self.agent = scenario_agent_module.ScenarioAgent()
+
+    def test_start_new_session(self):
+        # Test start_new_session function
+        result = self.agent.start_new_session()
+        self.assertTrue(result)
+
+class TestSessionHistory(unittest.TestCase):
+    def test_get_session_history(self):
+        # Test get_session_history function
+        result = session_history_module.get_session_history()
+        self.assertIsInstance(result, list)
+
+class TestVocabAgent(unittest.TestCase):
+    def setUp(self):
+        self.agent = vocab_agent_module.VocabAgent()
+
+    def test_restart_session(self):
+        # Test restart_session function
+        result = self.agent.restart_session()
+        self.assertTrue(result)
+
+class TestConversationTab(unittest.TestCase):
+    def test_handle_conversation(self):
+        # Test handle_conversation function
+        result = conversation_tab_module.handle_conversation("Hello")
+        self.assertIsNotNone(result)
+
+class TestScenarioTab(unittest.TestCase):
+    def test_create_scenario_tab(self):
+        # Test create_scenario_tab function
+        result = scenario_tab_module.create_scenario_tab()
+        self.assertIsNotNone(result)
+
+class TestVocabTab(unittest.TestCase):
+    def test_create_vocab_tab(self):
+        # Test create_vocab_tab function
+        result = vocab_tab_module.create_vocab_tab()
+        self.assertIsNotNone(result)
+
+class TestMergeRequirements(unittest.TestCase):
+    def test_merge_requirements(self):
+        # Test merge_requirements function
+        result = merge_requirements_module.merge_requirements([])
+        self.assertIsInstance(result, list)
+
+if __name__ == '__main__':
+    unittest.main()

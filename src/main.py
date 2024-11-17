@@ -11,7 +11,7 @@ def main():
         create_vocab_tab()
     
     # 启动应用
-    language_mentor_app.launch(share=True, server_name="0.0.0.0")
+    language_mentor_app.launch(share=True, server_name="127.0.0.1")
 
 if __name__ == "__main__":
     main()
